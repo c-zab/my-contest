@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss";
 
-export default {
+const config: Config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -12,7 +12,28 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      animation: {
+        'spinner-dash': 'spinner-dash 1.5s ease-in-out infinite',
+      },
+      keyframes: {
+        'spinner-dash': {
+          '0%': {
+            'stroke-dasharray': '1, 150',
+            'stroke-dashoffset': '0',
+          },
+          '50%': {
+            'stroke-dasharray': '90, 150',
+            'stroke-dashoffset': '-35',
+          },
+          '100%': {
+            'stroke-dasharray': '90, 150',
+            'stroke-dashoffset': '-124',
+          },
+        },
+      },
     },
   },
   plugins: [],
-} satisfies Config;
+};
+
+export default config;

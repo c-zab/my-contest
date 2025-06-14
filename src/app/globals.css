@@ -3,19 +3,99 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --main-color: #272727;
+  --primary-red: #E21837;
+  --primary-blue: #2175DD;
+  --background: #edeae1;
+  --white: #ffffff;
+  --black: #000000;
+  --gray-light: #B8B8B8;
+  --gray-medium: #6B7280;
+  --gray-border: #c6c6c6;
+  --disabled-bg: #ffcccc;
+  --disabled-text: #666666;
+  --visited-link: #9b59b6;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes spinner-dash {
+  0% {
+    stroke-dasharray: 1, 150;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -35;
+  }
+  100% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -124;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  body {
+    @apply bg-[#edeae1] text-[#272727];
+  }
+
+  a {
+    @apply text-[#2175DD] no-underline;
+  }
+
+  a:hover {
+    @apply bg-[#2175DD] text-white;
+  }
+
+  a:visited {
+    @apply text-[#9b59b6];
+  }
+
+  a:disabled {
+    @apply bg-[#ffcccc] text-[#666666] cursor-not-allowed;
+  }
+}
+
+@layer components {
+  .regular-button {
+    @apply bg-[#E21837] text-white px-6 py-3 rounded font-bold uppercase tracking-wider shadow-lg transition duration-300;
+  }
+
+  .regular-button:hover {
+    @apply bg-[#c41530];
+  }
+
+  .regular-button:disabled {
+    @apply bg-[#ffcccc] text-[#666666] cursor-not-allowed;
+  }
+
+  .select-input {
+    @apply bg-white border border-[#c6c6c6] text-[#6B7280] rounded p-2;
+  }
+
+  .custom-checkbox {
+    @apply border-3 border-[#2175DD] bg-[#edeae1] rounded;
+  }
+
+  .custom-checkbox:checked {
+    @apply bg-[#2175DD];
+  }
+
+  .overlay-root {
+    @apply bg-black/40;
+  }
+
+  .overlay-window {
+    @apply bg-white rounded-lg shadow-xl;
+  }
+
+  .overlay-window-header {
+    @apply bg-[#EDEAE1] p-4 rounded-t-lg;
+  }
+
+  .overlay-window-header-icon {
+    @apply bg-[#D7D2C6] p-2 rounded;
+  }
+
+  .footer {
+    @apply bg-black text-[#B8B8B8] w-full p-4 text-center text-sm;
+  }
 }

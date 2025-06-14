@@ -1,46 +1,55 @@
 "use client"; // Ensures it's a Client Component
 
-import { Suspense } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import Loading from "../components/Loading";
 
 function ErrorContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [isLoading, setIsLoading] = useState(true);
   const coupon = searchParams.get("value") || "Unknown";
 
-  return (
-    <div className="h-screen flex flex-col bg-red-100 text-gray-900">
-      <div className="w-full p-4 bg-gradient-to-r from-red-500 to-orange-400 text-white flex justify-center text-lg font-bold uppercase tracking-widest shadow-md">
-        Contest Arena
-      </div>
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 700);
+    return () => clearTimeout(timer);
+  }, []);
 
-      <div className="flex-grow flex flex-col items-center justify-center p-4">
-        <h1 className="text-4xl font-extrabold text-red-600 uppercase">
-          Error
+  if (isLoading) {
+    return <Loading size="lg" />;
+  }
+
+  return (
+    <div className="flex-grow flex flex-col items-center justify-center p-4">
+      <div className="text-center mb-8">
+        <h1 className="text-4xl font-bold text-[#272727] mb-4">
+          Invalid Code
         </h1>
-        <p className="text-lg mt-4 text-gray-700 text-center max-w-md">
-          Oops! The coupon{" "}
-          <span className="font-bold text-red-500">{coupon}</span> is invalid.
-        </p>
+        <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full mb-8">
+          <div className="mb-4">
+            <div className="font-mono text-base bg-[#ffcccc] text-[#E21837] px-3 py-1 rounded border border-[#E21837] inline-block">
+              {coupon}
+            </div>
+          </div>
+          <p className="text-[#6B7280]">
+            This code is not valid. Please check the code and try again.
+          </p>
+        </div>
 
         <button
           onClick={() => router.push("/")}
-          className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded font-bold uppercase tracking-wider shadow-lg mt-4 transition duration-300"
+          className="regular-button"
         >
-          Go to Home
+          Try Again
         </button>
       </div>
-
-      <footer className="w-full p-4 bg-orange-500 text-white flex justify-center text-sm">
-        © 2025 Contest Arena. All rights reserved.
-      </footer>
     </div>
   );
 }
 
 export default function ErrorPage() {
   return (
-    <Suspense fallback={<p className="text-center mt-4">Loading...</p>}>
+    <Suspense fallback={<Loading size="lg" />}>
       <ErrorContent />
     </Suspense>
   );
