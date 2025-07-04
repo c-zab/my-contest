@@ -25,10 +25,20 @@ export default function Home() {
     setIsDisabled(inputValue === "");
   }, [inputValue]);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const value = encodeURIComponent(inputValue);
     if (inputValue === "") return;
-    if (/^\d+$/.test(inputValue)) {
+
+    // Call the API to check if the code exists
+    const res = await fetch("/api/check-code", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ code: inputValue }),
+    });
+
+    const data = await res.json();
+
+    if (data.exists) {
       router.push(`/entry/${value}`);
     } else {
       router.push(`/error?value=${value}`);

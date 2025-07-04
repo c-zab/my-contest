@@ -1,0 +1,18 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("dev-1-db.crs444egi3hp.us-east-2.rds.amazonaws.com")
+}
+
+model Voucher {
+  ID          Int      @id @default(autoincrement())
+  UniqueCode  String   @unique @db.VarChar(100)
+  BatchID     Int?
+  Active      Boolean  @default(true)
+  IsRedeemed  Boolean  @default(false)
+  CreatedAt   DateTime @default(now())
+  UpdatedAt   DateTime @updatedAt
+}
